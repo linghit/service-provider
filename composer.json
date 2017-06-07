@@ -1,0 +1,39 @@
+{
+    "name": "exts/service-gateway",
+    "authors": [
+        {
+            "name": "Runnerlee",
+            "email": "runnerleer@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@git.linghit.com:sdk/std.git"
+        },
+        {
+            "type": "git",
+            "url": "git@git.linghit.com:sdk/app-sdk.git"
+        }
+    ],
+    "require": {
+        "fastd/fastd": "~3.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0",
+        "phpunit/dbunit": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Exts\\ServiceGateway\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "": "tests/app/minimal/src"
+        }
+    }
+}

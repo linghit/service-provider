@@ -1,0 +1,20 @@
+stages:
+  - build
+  - test
+
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - vendor
+    - bin
+
+build:
+  stage: build
+  script:
+    - composer update
+
+test:
+  stage: test
+  script:
+    - php vendor/bin/phpcs --colors --standard=PSR1,PSR2 --encoding=utf-8 --tab-width=4 ./src
+    - php vendor/bin/phpunit
