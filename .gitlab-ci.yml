@@ -16,5 +16,6 @@ build:
 test:
   stage: test
   script:
-    - php vendor/bin/phpcs --colors --standard=PSR1,PSR2 --encoding=utf-8 --tab-width=4 ./src
+    - phpcs --colors --standard=PSR1,PSR2 --encoding=utf-8 --tab-width=4 ./src
+    - phpcs --colors --standard=PSR1,PSR2 --encoding=utf-8 --tab-width=4 ./tests
     - php vendor/bin/phpunit

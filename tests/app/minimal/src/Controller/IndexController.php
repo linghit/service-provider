@@ -16,5 +16,4 @@ class IndexController
             'foo' => 'bar',
         ]);
     }
-
 }

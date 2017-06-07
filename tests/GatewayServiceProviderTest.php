@@ -6,6 +6,8 @@
  * @time: 2017-06
  */
 
+namespace Exts\ServiceGateway\Testing;
+
 use FastD\TestCase;
 use FastD\Application;
 use FastD\Http\Response;
@@ -40,6 +42,4 @@ class GatewayServiceProviderTest extends TestCase
     {
         return new Application(__DIR__ . '/app/minimal');
     }
-
-
 }

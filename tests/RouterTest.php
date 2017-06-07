@@ -5,9 +5,11 @@
  * @time: 2017-05
  */
 
+namespace Exts\ServiceGateway\Testing;
+
 use Exts\ServiceGateway\Router;
 
-class RouterTest extends PHPUnit_Framework_TestCase
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -38,5 +40,4 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('PATCH', $this->collection->getRoute('users.update')->getMethod());
         $this->assertEquals('DELETE', $this->collection->getRoute('users.delete')->getMethod());
     }
-
 }
