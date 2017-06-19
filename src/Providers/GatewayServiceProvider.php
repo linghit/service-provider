@@ -30,5 +30,9 @@ class GatewayServiceProvider implements ServiceProviderInterface
          * 注册全局中间件
          */
         $container->get('dispatcher')->withAddMiddleware(new AuthMiddleware());
+
+        route()->get('/health_check', function () {
+            return 'ok.';
+        });
     }
 }
