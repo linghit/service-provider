@@ -26,13 +26,29 @@ class GatewayServiceProvider implements ServiceProviderInterface
          */
         $container->add('gateway_consumer', new Consumer());
 
+        $middleware = new AuthMiddleware();
+
+        /**
+         * 遍历路由, 往每个路由中手工添加中间件
+         */
+        foreach (route()->aliasMap as $group) {
+            foreach ($group as $route) {
+                $route->withAddMiddleware($middleware);
+            }
+        }
+
         /**
          * 注册全局中间件
          */
-        $container->get('dispatcher')->withAddMiddleware(new AuthMiddleware());
+//        $container->get('dispatcher')->withAddMiddleware(new AuthMiddleware());
 
+        /**
+         * 健康检查
+         */
         route()->get('/health_check', function () {
-            return 'ok.';
+            return json([
+                'status' => 200,
+            ]);
         });
     }
 }
