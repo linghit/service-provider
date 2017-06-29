@@ -45,7 +45,7 @@ class GatewayServiceProvider implements ServiceProviderInterface
         /**
          * 健康检查
          */
-        route()->get('/health_check', function () {
+        route()->get('/health-check', function () {
             return json([
                 'status' => 200,
             ]);
