@@ -6,16 +6,6 @@
             "email": "runnerleer@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@git.linghit.com:sdk/std.git"
-        },
-        {
-            "type": "git",
-            "url": "git@git.linghit.com:sdk/app-sdk.git"
-        }
-    ],
     "require": {
         "fastd/fastd": "~3.1.0"
     },
