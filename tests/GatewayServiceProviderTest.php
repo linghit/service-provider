@@ -15,12 +15,15 @@ use FastD\Http\Response;
 class GatewayServiceProviderTest extends TestCase
 {
 
+    public function createApplication()
+    {
+        return new Application(__DIR__ . '/app/minimal');
+    }
+
     public function testMiddleware()
     {
         $response = $this->handleRequest($this->request('GET', '/'));
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
-
-        $this->assertSame(false, gateway_consumer()->exists());
 
 
         $response = $this->handleRequest($this->request('GET', '/', [
@@ -29,17 +32,45 @@ class GatewayServiceProviderTest extends TestCase
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $this->assertSame(true, gateway_consumer()->exists());
         $this->assertEquals(
             [
                 'name' => 'hello',
+                'id' => 1,
             ],
+            gateway_consumer()->getArrayCopy()
+        );
+
+        $response = $this->handleRequest($this->request('GET', '/', [
+            'HTTP_X_CONSUMER_CUSTOM_ID' => 2,
+        ]));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(
+            [
+                'name' => 'hello',
+                'id' => 2,
+            ],
+            gateway_consumer()->getArrayCopy()
+        );
+
+        $response = $this->handleRequest($this->request('GET', '/', [
+            'HTTP_X_CONSUMER_CUSTOM_ID' => 3,
+        ]));
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(
+            [],
             gateway_consumer()->getArrayCopy()
         );
     }
 
-    public function createApplication()
+    public function testHealthCheck()
     {
-        return new Application(__DIR__ . '/app/minimal');
+        $response = $this->handleRequest($this->request('HEAD', '/health-check'));
+
+        $this->equalsJson(
+            $response,
+            [
+                'status' => 200,
+            ]
+        );
     }
 }

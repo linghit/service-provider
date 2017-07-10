@@ -8,9 +8,11 @@
 namespace Exts\ServiceGateway\Providers;
 
 use Exts\ServiceGateway\Consumer;
+use Exts\ServiceGateway\Contracts\ConsumerBuilderInterface;
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
 use Exts\ServiceGateway\Middlewares\AuthMiddleware;
+use ReflectionClass;
 
 class GatewayServiceProvider implements ServiceProviderInterface
 {
@@ -26,21 +28,26 @@ class GatewayServiceProvider implements ServiceProviderInterface
          */
         $container->add('gateway_consumer', new Consumer());
 
-        $middleware = new AuthMiddleware();
+        /**
+         * 注册消费者建造者
+         */
+        if ($container->get('config')->has('gateway.consumer_builder')) {
+            $reflection = new ReflectionClass($container->get('config')->get('gateway.consumer_builder'));
+            if ($reflection->isSubclassOf(ConsumerBuilderInterface::class)) {
+                $container->add('consumer_builder', $reflection->newInstance());
+            }
+        }
 
         /**
          * 遍历路由, 往每个路由中手工添加中间件
          */
+
+        $middleware = new AuthMiddleware();
         foreach (route()->aliasMap as $group) {
             foreach ($group as $route) {
                 $route->withAddMiddleware($middleware);
             }
         }
-
-        /**
-         * 注册全局中间件
-         */
-//        $container->get('dispatcher')->withAddMiddleware(new AuthMiddleware());
 
         /**
          * 健康检查

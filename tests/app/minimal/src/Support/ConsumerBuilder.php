@@ -18,8 +18,12 @@ class ConsumerBuilder implements ConsumerBuilderInterface
      */
     public function apply($id)
     {
+        if (3 == $id) {
+            return false;
+        }
         return [
             'name' => 'hello',
+            'id' => $id,
         ];
     }
 }

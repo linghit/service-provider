@@ -11,18 +11,5 @@ use FastD\Utils\ArrayObject;
 
 class Consumer extends ArrayObject
 {
-
-    protected $exists = false;
-
-    public function setIsExists()
-    {
-        $this->exists = true;
-
-        return $this;
-    }
-
-    public function exists()
-    {
-        return $this->exists;
-    }
+    
 }

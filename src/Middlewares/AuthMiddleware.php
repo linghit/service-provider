@@ -7,14 +7,12 @@
 
 namespace Exts\ServiceGateway\Middlewares;
 
-use Exts\ServiceGateway\Contracts\ConsumerBuilderInterface;
+use Exts\ServiceGateway\Consumer;
 use FastD\Http\Response;
 use FastD\Middleware\DelegateInterface;
 use FastD\Middleware\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use ReflectionClass;
-use Exception;
 
 class AuthMiddleware extends Middleware
 {
@@ -34,16 +32,8 @@ class AuthMiddleware extends Middleware
             abort(Response::HTTP_UNAUTHORIZED);
         }
 
-        if ($class = config()->get('gateway.consumer_builder')) {
-            try {
-                $reflection = new ReflectionClass($class);
-                if ($reflection->isSubclassOf(ConsumerBuilderInterface::class)) {
-                    gateway_consumer()->merge($reflection->newInstance()->apply($id));
-                }
-            } catch (Exception $exception) {
-            } finally {
-                gateway_consumer()->setIsExists();
-            }
+        if (app()->has('consumer_builder')) {
+            app()->add('gateway_consumer', new Consumer(app()->get('consumer_builder')->apply($id) ?: []));
         }
 
         return $next($request);
