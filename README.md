@@ -2,7 +2,7 @@
 
 ## 安装
 ```
-composer require exts/service-gateway
+composer require linghit/service-gateway
 ```
 
 ## 使用
