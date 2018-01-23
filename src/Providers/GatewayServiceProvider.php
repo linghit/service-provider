@@ -43,11 +43,7 @@ class GatewayServiceProvider implements ServiceProviderInterface
          */
 
         $middleware = new AuthMiddleware();
-        foreach (route()->aliasMap as $group) {
-            foreach ($group as $route) {
-                $route->withAddMiddleware($middleware);
-            }
-        }
+        app()->get('dispatcher')->before($middleware);
 
         /**
          * 健康检查

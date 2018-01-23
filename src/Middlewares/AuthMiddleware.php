@@ -24,6 +24,10 @@ class AuthMiddleware extends Middleware
      */
     public function handle(ServerRequestInterface $request, DelegateInterface $next)
     {
+        if ('/health-check' === $request->getUri()->getPath()) {
+            return $next->process($request);
+        }
+
         $id = null;
         foreach (['http_x_consumer_custom_id', 'x-consumer-custom-id', 'x_consumer_custom_id',] as $header) {
             $request->hasHeader($header) && $id = $request->getHeader($header)[0];
