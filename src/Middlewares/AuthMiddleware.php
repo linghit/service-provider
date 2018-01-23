@@ -8,23 +8,28 @@
 namespace Exts\ServiceGateway\Middlewares;
 
 use Exts\ServiceGateway\Consumer;
+use Exts\ServiceGateway\Providers\GatewayServiceProvider;
 use FastD\Http\Response;
 use FastD\Middleware\DelegateInterface;
 use FastD\Middleware\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class AuthMiddleware
+ * @package Exts\ServiceGateway\Middlewares
+ */
 class AuthMiddleware extends Middleware
 {
-
     /**
      * @param ServerRequestInterface $request
      * @param DelegateInterface $next
      * @return ResponseInterface
+     * @throws \Exception
      */
     public function handle(ServerRequestInterface $request, DelegateInterface $next)
     {
-        if ('/health-check' === $request->getUri()->getPath()) {
+        if (GatewayServiceProvider::HEALTH_PATH === $request->getUri()->getPath()) {
             return $next->process($request);
         }
 

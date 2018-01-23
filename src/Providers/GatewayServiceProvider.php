@@ -16,7 +16,7 @@ use ReflectionClass;
 
 class GatewayServiceProvider implements ServiceProviderInterface
 {
-
+    const HEALTH_PATH = '/health-check';
     /**
      * @param Container $container
      * @return mixed
@@ -48,7 +48,7 @@ class GatewayServiceProvider implements ServiceProviderInterface
         /**
          * 健康检查
          */
-        route()->head('/health-check', function () {
+        route()->head(static::HEALTH_PATH, function () {
             return json([
                 'status' => 200,
             ]);
